@@ -30,6 +30,16 @@ npx mdr .
 `../webCompiler` は `mdr-compiler` のローカルパスに置き換える。npm へ公開
 せず、ローカルの Node プロジェクトから利用する想定です。
 
+Astro から利用する場合は `astro.config.mjs` に Integration を追加する。
+
+```js
+import { mdr } from 'mdr-compiler';
+
+export default {
+  integrations: [mdr()],
+};
+```
+
 `src/pages/index.mdr` は `dist/index.html` に、
 `src/pages/about.mdr` は `dist/about/index.html` に変換されます。
 `public/` のファイルはそのまま `dist/` へコピーされます。
