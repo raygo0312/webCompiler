@@ -37,3 +37,13 @@ AST / IR ────────────┬─→ compiler backend
 6. トークンとノード範囲を使う syntax highlighter
 
 各段階で `examples/basic.md` を入力にした小さな実行例を追加する。
+
+## 現在の使い方
+
+入力ファイルを HTML に変換するには、次を実行する。
+
+```sh
+npm run compile -- examples/basic.md
+```
+
+プログラムから使う場合は `src/index.js` の `compile(source)` を利用する。
