@@ -1,7 +1,13 @@
+#!/usr/bin/env node
+
 const path = require('node:path');
 const { compileProject } = require('./project-compiler');
 
 const args = process.argv.slice(2);
+if (args.includes('--help') || args.includes('-h')) {
+  console.log('Usage: mdr [project-dir] [--pages-dir <directory>] [--out-dir <directory>]');
+  process.exit(0);
+}
 const projectPath = args.find((argument) => !argument.startsWith('--')) || '.';
 const outputFlag = args.indexOf('--out-dir');
 const outputPath = outputFlag >= 0 ? args[outputFlag + 1] : 'dist';

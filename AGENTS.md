@@ -19,6 +19,8 @@ The project has three connected parts:
 - The project compiler discovers `.mdr` pages under `src/pages/`, maps them to
   Astro-style routes, copies `public/`, and writes the result under `dist/` by
   default.
+- The compiler is packaged as `mdr-compiler` with an `mdr` CLI and a CommonJS
+  API. It is not published to npm yet.
 - Formatter and syntax highlighter are not implemented yet.
 
 ## Working Principles
