@@ -3,7 +3,8 @@
 ## Goal
 
 This directory is the workspace for creating a compiler for a new
-Markdown-like language.
+Markdown-like language, motivated by improving the author's `../study_note`
+project.
 
 The project has three connected parts:
 
@@ -23,6 +24,9 @@ The project has three connected parts:
   API for local use. The package is private and is not intended to be published
   to npm.
 - Formatter and syntax highlighter are not implemented yet.
+- The shortest-term target is Astro integration for `study_note`; the standalone
+  compiler should not duplicate Astro's build and deployment infrastructure
+  before the actual writing problems are understood.
 
 ## Working Principles
 
@@ -51,8 +55,9 @@ The first syntax decisions are recorded in `docs/syntax.md`:
 - A line beginning with `-` is an unordered-list item. A line beginning with
   `*` is not a list item.
 
-The minimal language example is in `examples/basic.mdr`. The planned shared
-pipeline is described in `docs/architecture.md`.
+The minimal language example is in `examples/basic.mdr`. The motivation and
+shortest implementation path are described in `docs/motivation.md`; the planned
+shared pipeline is described in `docs/architecture.md`.
 
 The next useful step is to derive a small lexer/parser and its tests from the
 example, keeping the compiler, formatter, and highlighter as separate
