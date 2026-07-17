@@ -16,8 +16,9 @@ The project has three connected parts:
 - The project is at the initial stage.
 - A minimal lexer, parser, AST, HTML compiler, project compiler, and test suite
   now exist.
-- The project compiler discovers `.mdr` files and writes corresponding `.html`
-  files under `dist/` by default.
+- The project compiler discovers `.mdr` pages under `src/pages/`, maps them to
+  Astro-style routes, copies `public/`, and writes the result under `dist/` by
+  default.
 - Formatter and syntax highlighter are not implemented yet.
 
 ## Working Principles

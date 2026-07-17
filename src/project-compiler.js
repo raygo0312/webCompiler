@@ -16,22 +16,55 @@ function findMdrFiles(directory, root = directory) {
   return files.sort();
 }
 
-function compileProject(projectDirectory, outputDirectory = 'dist') {
-  const root = path.resolve(projectDirectory);
-  const outputRoot = path.resolve(root, outputDirectory);
-  const inputFiles = findMdrFiles(root);
-  const outputFiles = [];
-
-  for (const relativeInput of inputFiles) {
-    const relativeOutput = relativeInput.replace(/\.mdr$/, '.html');
-    const outputPath = path.join(outputRoot, relativeOutput);
-    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-    const source = fs.readFileSync(path.join(root, relativeInput), 'utf8');
-    fs.writeFileSync(outputPath, `${compile(source)}\n`);
-    outputFiles.push(relativeOutput);
-  }
-
-  return { root, outputRoot, files: outputFiles };
+function pageOutputPath(relativePage) {
+  const withoutExtension = relativePage.replace(/\.mdr$/, '');
+  const parsed = path.posix.parse(withoutExtension.replaceAll(path.sep, '/'));
+  const directory = parsed.name === 'index'
+    ? parsed.dir
+    : path.posix.join(parsed.dir, parsed.name);
+  return path.posix.join(directory, 'index.html');
 }
 
-module.exports = { compileProject, findMdrFiles };
+function copyPublicDirectory(source, destination, root = source) {
+  const copied = [];
+  for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    const sourcePath = path.join(source, entry.name);
+    const destinationPath = path.join(destination, entry.name);
+    if (entry.isDirectory()) {
+      copied.push(...copyPublicDirectory(sourcePath, destinationPath, root));
+    } else if (entry.isFile()) {
+      fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
+      fs.copyFileSync(sourcePath, destinationPath);
+      copied.push(path.relative(root, sourcePath));
+    }
+  }
+  return copied.sort();
+}
+
+function compileProject(projectDirectory, options = {}) {
+  const root = path.resolve(projectDirectory);
+  const pagesDirectory = options.pagesDirectory || 'src/pages';
+  const outputDirectory = options.outputDirectory || 'dist';
+  const pagesRoot = path.resolve(root, pagesDirectory);
+  const outputRoot = path.resolve(root, outputDirectory);
+  const pageFiles = fs.existsSync(pagesRoot) ? findMdrFiles(pagesRoot) : [];
+  const files = [];
+  const assets = [];
+
+  if (fs.existsSync(path.join(root, 'public'))) {
+    assets.push(...copyPublicDirectory(path.join(root, 'public'), outputRoot));
+  }
+
+  for (const relativePage of pageFiles) {
+    const outputRelativePath = pageOutputPath(relativePage);
+    const outputPath = path.join(outputRoot, outputRelativePath);
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    const source = fs.readFileSync(path.join(pagesRoot, relativePage), 'utf8');
+    fs.writeFileSync(outputPath, `${compile(source)}\n`);
+    files.push(outputRelativePath);
+  }
+
+  return { root, pagesRoot, outputRoot, files, assets };
+}
+
+module.exports = { compileProject, findMdrFiles, pageOutputPath };
