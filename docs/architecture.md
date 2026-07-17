@@ -32,18 +32,27 @@ AST / IR ────────────┬─→ compiler backend
 1. 最小トークン定義と lexer
 2. 見出し、段落、太字、2 種類のリストを扱う parser
 3. AST / IR の検証テスト
-4. 最小 compiler backend
+4. HTML compiler backend とプロジェクトコンパイラ
 5. AST / IR を使う formatter
 6. トークンとノード範囲を使う syntax highlighter
 
-各段階で `examples/basic.md` を入力にした小さな実行例を追加する。
+各段階で `examples/basic.mdr` を入力にした小さな実行例を追加する。
 
 ## 現在の使い方
 
-入力ファイルを HTML に変換するには、次を実行する。
+Node プロジェクト内の `.mdr` ファイルをまとめて HTML に変換するには、
+プロジェクトのルートで次を実行する。
 
 ```sh
-npm run compile -- examples/basic.md
+npm run compile -- .
 ```
 
-プログラムから使う場合は `src/index.js` の `compile(source)` を利用する。
+入力ファイルの相対パスを保ったまま、`dist/` に `.html` として出力する。
+出力先を変更する場合は次のように指定する。
+
+```sh
+npm run compile -- . --out-dir public
+```
+
+プログラムから単一文書を変換する場合は `compile(source)`、プロジェクトを
+変換する場合は `compileProject(projectDirectory)` を利用する。

@@ -14,8 +14,11 @@ The project has three connected parts:
 ## Current State
 
 - The project is at the initial stage.
-- A minimal lexer, parser, AST, and parser test suite now exist.
-- Compiler output, formatter, and syntax highlighter are not implemented yet.
+- A minimal lexer, parser, AST, HTML compiler, project compiler, and test suite
+  now exist.
+- The project compiler discovers `.mdr` files and writes corresponding `.html`
+  files under `dist/` by default.
+- Formatter and syntax highlighter are not implemented yet.
 
 ## Working Principles
 
@@ -44,7 +47,7 @@ The first syntax decisions are recorded in `docs/syntax.md`:
 - A line beginning with `-` is an unordered-list item. A line beginning with
   `*` is not a list item.
 
-The minimal language example is in `examples/basic.md`. The planned shared
+The minimal language example is in `examples/basic.mdr`. The planned shared
 pipeline is described in `docs/architecture.md`.
 
 The next useful step is to derive a small lexer/parser and its tests from the
