@@ -1,6 +1,7 @@
 {
   "name": "mdr-compiler",
   "version": "0.1.0",
+  "private": true,
   "description": "Compiler and project builder for the MDR language",
   "main": "src/index.js",
   "exports": {

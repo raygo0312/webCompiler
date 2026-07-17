@@ -20,10 +20,15 @@ my-site/
 
 ## インストールとビルド
 
+コンパイラをローカルパスから開発用依存として追加する。
+
 ```sh
-npm install --save-dev mdr-compiler
+npm install --save-dev ../webCompiler
 npx mdr .
 ```
+
+`../webCompiler` は `mdr-compiler` のローカルパスに置き換える。npm へ公開
+せず、ローカルの Node プロジェクトから利用する想定です。
 
 `src/pages/index.mdr` は `dist/index.html` に、
 `src/pages/about.mdr` は `dist/about/index.html` に変換されます。
